@@ -33,6 +33,8 @@ public class SseModel {
     private final String _almEntityId;
     private final String _postRunAction;
     private final String _environmentConfigurationId;
+    private final String _release;
+    private final String _branch;
     private final CdaDetails _cdaDetails;
     private final SseProxySettings _proxySettings;
     
@@ -73,7 +75,9 @@ public class SseModel {
             String postRunAction,
             String environmentConfigurationId,
             CdaDetails cdaDetails,
-            SseProxySettings proxySettings) {
+            SseProxySettings proxySettings,
+            String release,
+            String branch) {
         
         _almServerName = almServerName;
         _almDomain = almDomain;
@@ -88,7 +92,9 @@ public class SseModel {
         _environmentConfigurationId = environmentConfigurationId;
         _cdaDetails = cdaDetails;
         _proxySettings = proxySettings;
-        
+        _release = release;
+        _branch = branch;
+
     }
     
     protected SecretContainer setPassword(String almPassword) {
@@ -180,5 +186,13 @@ public class SseModel {
     
     public SseProxySettings getProxySettings() {
         return _proxySettings;
+    }
+
+    public String getRelease() {
+        return _release;
+    }
+
+    public String getBranch() {
+        return _branch;
     }
 }

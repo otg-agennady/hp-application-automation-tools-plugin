@@ -94,6 +94,12 @@
         <f:entry title="Environment Configuration ID" field="environmentConfigurationId">
        	    <f:textbox name="sse.environmentConfigurationId" value="${instance.sseModel.environmentConfigurationId}"/>
         </f:entry>
+        <f:entry title="Release" field="release">
+       	    <f:textbox name="sse.release" value="${instance.sseModel.release}"/>
+        </f:entry>
+        <f:entry title="Branch" field="branch">
+       	    <f:textbox name="sse.branch" value="${instance.sseModel.branch}"/>
+        </f:entry>
         <f:block>
 			<f:optionalBlock name="sse.cdaDetails" title="Use CDA for provisioning and deployment" checked="${instance.cdaDetailsChecked}">
     			<f:entry title="Deployment Action" field="deploymentAction">

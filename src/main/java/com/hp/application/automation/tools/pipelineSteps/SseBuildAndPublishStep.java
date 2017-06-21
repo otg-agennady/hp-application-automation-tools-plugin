@@ -85,7 +85,9 @@ public class SseBuildAndPublishStep extends AbstractStepImpl {
                       String runType,
                       String almEntityId,
                       String timeslotDuration,
-                      String archiveTestResultsMode) {
+                      String archiveTestResultsMode,
+                      String release,
+                      String branch) {
 
         sseBuilder = new SseBuilder(almServerName,
                 almProject,
@@ -93,7 +95,9 @@ public class SseBuildAndPublishStep extends AbstractStepImpl {
                 almDomain,
                 runType,
                 almEntityId,
-                timeslotDuration);
+                timeslotDuration,
+                release,
+                branch);
 
         runResultRecorder = new RunResultRecorder(archiveTestResultsMode);
     }
