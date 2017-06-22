@@ -3,12 +3,15 @@ package com.hp.application.automation.tools.sse.sdk;
 import com.hp.application.automation.tools.common.SSEException;
 import com.hp.application.automation.tools.rest.RestClient;
 import com.hp.application.automation.tools.sse.common.StringUtils;
+import com.hp.application.automation.tools.sse.common.XPathUtils;
 import com.hp.application.automation.tools.sse.result.PublisherFactory;
 import com.hp.application.automation.tools.sse.result.model.junit.Testsuites;
-import com.hp.application.automation.tools.sse.sdk.handler.PollHandler;
-import com.hp.application.automation.tools.sse.sdk.handler.PollHandlerFactory;
-import com.hp.application.automation.tools.sse.sdk.handler.RunHandler;
-import com.hp.application.automation.tools.sse.sdk.handler.RunHandlerFactory;
+import com.hp.application.automation.tools.sse.sdk.handler.*;
+import com.hp.application.automation.tools.sse.sdk.request.GetRunEntityByParentRequest;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -48,6 +51,21 @@ public class RunManager {
                                     logger);
                 }
                 _polling = false;
+
+                if (_pollHandler instanceof LabPollHandler) {
+                    LabPollHandler handler = (LabPollHandler) _pollHandler;
+                    String parentId = handler.getParentId();
+                    System.out.println(parentId);
+
+//                    Get run entities
+                    List<Map<String, String>> entities = handler.getRunEntitiesByParent(client, parentId, logger);
+                    for (Map entity:entities) {
+                        Object id = entity.get("id");
+                        System.out.println(id);
+                    }
+
+
+                }
             }
         }
 

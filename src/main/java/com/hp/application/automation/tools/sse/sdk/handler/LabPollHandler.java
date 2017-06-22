@@ -1,12 +1,18 @@
 package com.hp.application.automation.tools.sse.sdk.handler;
 
+import com.hp.application.automation.tools.results.service.ExternalEntityUploadLogger;
 import com.hp.application.automation.tools.sse.common.StringUtils;
 import com.hp.application.automation.tools.sse.common.XPathUtils;
 import com.hp.application.automation.tools.sse.sdk.Client;
 import com.hp.application.automation.tools.sse.sdk.Logger;
 import com.hp.application.automation.tools.sse.sdk.Response;
 import com.hp.application.automation.tools.sse.sdk.request.GetLabRunEntityDataRequest;
+import com.hp.application.automation.tools.sse.sdk.request.GetRunEntityByParentRequest;
 import com.hp.application.automation.tools.sse.sdk.request.PollSSERunRequest;
+import org.jsoup.nodes.Entities;
+
+import java.util.List;
+import java.util.Map;
 
 /***
  * 
@@ -27,7 +33,32 @@ public class LabPollHandler extends PollHandler {
         
         super(client, entityId, interval);
     }
-    
+
+    public String getParentId() {
+        String s = XPathUtils.getAttributeValue(getResponse().toString(), "parent-id");
+        if (StringUtils.isNullOrEmpty(s)) {
+            return "No Parent ID";
+        }
+        return s;
+    }
+
+    public List<Map<String, String>> getRunEntitiesByParent(Client client, String parentId, Logger logger) {
+        Response response = (new GetRunEntityByParentRequest(client, parentId)).execute();
+        List<Map<String, String>> ret = null;
+        try {
+            if (!StringUtils.isNullOrEmpty(response.toString())) {
+                ret = XPathUtils.toEntities(response.toString());
+            }
+        } catch (Throwable cause) {
+            logger.log(String.format(
+                    "Failed to parse Runs response XML. Exception: %s, XML: %s",
+                    cause.getMessage(),
+                    response.toString()));
+        }
+
+        return ret;
+    }
+
     @Override
     protected boolean doPoll(Logger logger) throws InterruptedException {
         

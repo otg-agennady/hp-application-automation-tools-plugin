@@ -11,12 +11,15 @@ import com.hp.application.automation.tools.sse.sdk.Client;
 
 public abstract class GetRequest extends GeneralGetRequest {
     
-    protected final String _runId;
+    protected String _runId;
     
     protected GetRequest(Client client, String runId) {
         
         super(client);
         _runId = runId;
     }
-    
+
+    protected GetRequest(Client client) {
+        super(client);
+    }
 }
