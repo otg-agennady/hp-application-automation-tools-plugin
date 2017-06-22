@@ -1,6 +1,7 @@
 package com.hp.application.automation.tools.sse.sdk;
 
 import com.hp.application.automation.tools.common.SSEException;
+import com.hp.application.automation.tools.model.SseModel;
 import com.hp.application.automation.tools.rest.RestClient;
 import com.hp.application.automation.tools.sse.common.StringUtils;
 import com.hp.application.automation.tools.sse.common.XPathUtils;
@@ -8,8 +9,11 @@ import com.hp.application.automation.tools.sse.result.PublisherFactory;
 import com.hp.application.automation.tools.sse.result.model.junit.Testsuites;
 import com.hp.application.automation.tools.sse.sdk.handler.*;
 import com.hp.application.automation.tools.sse.sdk.request.GetRunEntityByParentRequest;
+import com.hp.application.automation.tools.sse.sdk.request.PutRunRequest;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +66,57 @@ public class RunManager {
                     for (Map entity:entities) {
                         Object id = entity.get("id");
                         System.out.println(id);
+                    }
+
+
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    public Testsuites execute(RestClient client, Args args, SseModel model, Logger logger)
+            throws InterruptedException {
+
+        Testsuites ret = null;
+        _logger = logger;
+        _running = true;
+        if (login(client, args)) {
+            initialize(args, client);
+            if (start(args)) {
+                _polling = true;
+                if (poll()) {
+                    ret =
+                            new PublisherFactory().create(
+                                    client,
+                                    args.getRunType(),
+                                    args.getEntityId(),
+                                    _runHandler.getRunId()).publish(
+                                    _runHandler.getNameSuffix(),
+                                    args.getUrl(),
+                                    args.getDomain(),
+                                    args.getProject(),
+                                    logger);
+                }
+                _polling = false;
+
+                if (_pollHandler instanceof LabPollHandler) {
+                    LabPollHandler handler = (LabPollHandler) _pollHandler;
+                    String parentId = handler.getParentId();
+
+                    PutRunRequest request = new PutRunRequest(client);
+                    Map<String, String> map = new HashMap<>();
+                    map.put("user-01", model.getBranch());
+                    map.put("user-02", model.getRelease());
+                    ArrayList<Map<String, String>> fields = new ArrayList<>();
+                    fields.add(map);
+                    request.setFields(fields);
+
+                    List<Map<String, String>> entities = handler.getRunEntitiesByParent(client, parentId, logger);
+                    for (Map entity:entities) {
+                        String id = (String) entity.get("id");
+                        request.perform(id);
                     }
 
 

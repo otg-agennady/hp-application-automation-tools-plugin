@@ -3,6 +3,7 @@ package com.hp.application.automation.tools.sse;
 import com.hp.application.automation.tools.model.SseModel;
 import com.hp.application.automation.tools.model.SseProxySettings;
 import com.hp.application.automation.tools.rest.RestClient;
+import com.hp.application.automation.tools.sse.common.StringUtils;
 import com.hp.application.automation.tools.sse.result.model.junit.Testsuites;
 import com.hp.application.automation.tools.sse.sdk.Args;
 import com.hp.application.automation.tools.sse.sdk.Logger;
@@ -52,7 +53,11 @@ public class SSEBuilderPerformer {
                                 args.getProject(),
                                 args.getUsername());
             }
-            ret = _runManager.execute(restClient, args, logger);
+            if (StringUtils.isNullOrEmpty(model.getRelease())) {
+                ret = _runManager.execute(restClient, args, logger);
+            } else {
+                ret = _runManager.execute(restClient, args, model, logger);
+            }
         }
         catch (InterruptedException ex) {
             throw ex;
