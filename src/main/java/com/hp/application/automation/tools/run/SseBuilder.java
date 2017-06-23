@@ -153,6 +153,9 @@ public class SseBuilder extends Builder implements SimpleBuildStep {
 
         UsernamePasswordCredentials credentials = getCredentialsById(credentialsId, build, logger);
         setProxyCredentials(build);
+        branch = build.getEnvironment(listener).expand(branch);
+        release = build.getEnvironment(listener).expand(release);
+
 
     	_sseModel = new SseModel(
                 almServerName,
