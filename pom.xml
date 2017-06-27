@@ -7,11 +7,11 @@
 		<!-- which version of Jenkins is this plugin built against? -->
 	</parent>
 
-	<artifactId>hp-application-automation-tools-plugin</artifactId>
-	<version>5.1</version>
+	<artifactId>lzlabs-alm-plugin</artifactId>
+	<version>0.1</version>
 	<packaging>hpi</packaging>
-	<name>HP Application Automation Tools</name>
-	<description>The plugin integrates Jenkins with the following HPE products - Service Virtualization, LoadRunner, Performance Center, Unified Functional Testing, QuickTest Professional, Service Test, Mobile Center, Application Lifecycle Management and Application Lifecycle Management Octane.</description>
+	<name>LzLabs Automation Tools for HP ALM</name>
+	<description>The plugin adds custom fields to HP Application Automation Tools plugin.</description>
 	<url>https://wiki.jenkins-ci.org/display/JENKINS/HP+Application+Automation+Tools</url>
 
 	<licenses>
