@@ -209,6 +209,8 @@ public class TestRunManager extends TestCase {
                 POST_RUN_ACTION,
                 ENVIRONMENT_CONFIGURATION_ID,
                 null,
+                null,
+                null,
                 null);
     }
     
@@ -227,6 +229,8 @@ public class TestRunManager extends TestCase {
                 POST_RUN_ACTION,
                 ENVIRONMENT_CONFIGURATION_ID,
                 CDA_DETAILS,
+                null,
+                null,
                 null);
     }
     
@@ -245,6 +249,8 @@ public class TestRunManager extends TestCase {
                 POST_RUN_ACTION,
                 ENVIRONMENT_CONFIGURATION_ID,
                 new CdaDetails("", "", ""),
+                null,
+                null,
                 null);
     }
     
@@ -263,6 +269,8 @@ public class TestRunManager extends TestCase {
                 POST_RUN_ACTION,
                 ENVIRONMENT_CONFIGURATION_ID,
                 null,
+                null,
+                null,
                 null);
     }
     
@@ -280,6 +288,8 @@ public class TestRunManager extends TestCase {
                 DESCRIPTION,
                 POST_RUN_ACTION,
                 ENVIRONMENT_CONFIGURATION_ID,
+                null,
+                null,
                 null,
                 null);
     }

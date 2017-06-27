@@ -37,7 +37,9 @@ public class MockSseModel extends SseModel {
             String postRunAction,
             String environmentConfigurationId,
             CdaDetails cdaDetails,
-            ProxySettings proxySettings) {
+            ProxySettings proxySettings,
+            String release,
+            String branch) {
         
         super(
                 almServerName,
@@ -52,7 +54,9 @@ public class MockSseModel extends SseModel {
                 postRunAction,
                 environmentConfigurationId,
                 cdaDetails,
-                null);
+                null,
+                release,
+                branch);
     }
     
     @Override
