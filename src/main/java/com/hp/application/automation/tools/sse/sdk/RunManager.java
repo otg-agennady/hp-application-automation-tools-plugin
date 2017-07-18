@@ -107,8 +107,8 @@ public class RunManager {
 
                     PutRunRequest request = new PutRunRequest(client);
                     Map<String, String> map = new HashMap<>();
-                    map.put("user-01", model.getBranch());
-                    map.put("user-02", model.getRelease());
+                    map.put("user-01", model.getResolvedBranch());
+                    map.put("user-02", model.getResolvedRelease());
                     ArrayList<Map<String, String>> fields = new ArrayList<>();
                     fields.add(map);
                     request.setFields(fields);

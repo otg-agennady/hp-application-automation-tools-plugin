@@ -11,6 +11,7 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
+import hudson.*;
 import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.AncestorInPath;
@@ -36,10 +37,6 @@ import com.hp.application.automation.tools.sse.result.model.junit.Testsuite;
 import com.hp.application.automation.tools.sse.result.model.junit.Testsuites;
 import com.hp.application.automation.tools.sse.sdk.Logger;
 
-import hudson.Extension;
-import hudson.FilePath;
-import hudson.Launcher;
-import hudson.Util;
 import hudson.model.*;
 import hudson.model.queue.Tasks;
 import hudson.security.ACL;
@@ -153,9 +150,7 @@ public class SseBuilder extends Builder implements SimpleBuildStep {
 
         UsernamePasswordCredentials credentials = getCredentialsById(credentialsId, build, logger);
         setProxyCredentials(build);
-        branch = build.getEnvironment(listener).expand(branch);
-        release = build.getEnvironment(listener).expand(release);
-
+        EnvVars environment = build.getEnvironment(listener);
 
     	_sseModel = new SseModel(
                 almServerName,
@@ -173,10 +168,12 @@ public class SseBuilder extends Builder implements SimpleBuildStep {
                 proxySettings,
                 release,
                 branch);
+    	_sseModel.setResolvedRelease(environment.expand(release));
+    	_sseModel.setResolvedBranch(environment.expand(branch));
 
         _sseModel.setAlmServerUrl(getServerUrl(_sseModel.getAlmServerName()));
 
-        VariableResolver<String> varResolver = new VariableResolver.ByMap<String>(build.getEnvironment(listener));
+        VariableResolver<String> varResolver = new VariableResolver.ByMap<String>(environment);
         Testsuites testsuites = execute(build, logger, varResolver);
 
         FilePath resultsFilePath = workspace.child(getFileName());

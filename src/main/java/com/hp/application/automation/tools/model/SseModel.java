@@ -35,6 +35,7 @@ public class SseModel {
     private final String _environmentConfigurationId;
     private final String _release;
     private final String _branch;
+    private String resolvedBranch;
     private final CdaDetails _cdaDetails;
     private final SseProxySettings _proxySettings;
     
@@ -60,7 +61,8 @@ public class SseModel {
             _postRunActionCollate,
             _postRunActionCollateAnalyze,
             _postRunActionDoNothing);
-    
+    private String resolvedRelease;
+
     @DataBoundConstructor
     public SseModel(
             String almServerName,
@@ -194,5 +196,21 @@ public class SseModel {
 
     public String getBranch() {
         return _branch;
+    }
+
+    public String getResolvedBranch() {
+        return resolvedBranch;
+    }
+
+    public void setResolvedBranch(String resolvedBranch) {
+        this.resolvedBranch = resolvedBranch;
+    }
+
+    public String getResolvedRelease() {
+        return resolvedRelease;
+    }
+
+    public void setResolvedRelease(String resolvedRelease) {
+        this.resolvedRelease = resolvedRelease;
     }
 }
